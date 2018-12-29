@@ -6,8 +6,9 @@ import store from "./store/index.js";
 
 import "antd/dist/antd.css";
 
-import { getInputChangeAction, getAddItemAction ,getDeleteItemAction} from "./store/actionCreators";
+import { getInputChangeAction, getAddItemAction ,getDeleteItemAction ,initListAction} from "./store/actionCreators";
 
+import axios from 'axios';
 
 class TodoList extends Component {
   constructor(props) {
@@ -18,6 +19,20 @@ class TodoList extends Component {
     //更新数据
     store.subscribe(this.handleStoreChnage);
   }
+
+  //生命周期
+ componentDidMount(){
+   console.log('99999999999999999999')
+   axios.get('https://api.github.com/users').then((res)=>{
+      console.log(res)
+      const data= res.data;
+
+        const action=initListAction(data);
+        store.dispatch(action);
+
+   })
+ }
+
   handleInputChnage = e => {
     console.log(e.target.value);
 
